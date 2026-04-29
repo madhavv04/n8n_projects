@@ -1,0 +1,761 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "resume0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1664,
+        -32
+      ],
+      "id": "0b189517-f161-47c6-b829-ce28b2147369",
+      "name": "PDF Extraction"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "parser",
+        "responseMode": "responseNode",
+        "options": {
+          "binaryPropertyName": "resume"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2112,
+        160
+      ],
+      "id": "7e0f51d4-e6fd-48fb-9dd3-5f52f204eb03",
+      "name": "Resume Upload Trigger",
+      "webhookId": "d8bdea5d-1aca-4ae2-978b-15082a655a29"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$binary.resume0.mimeType}}",
+                    "rightValue": "pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "a25e40e4-c23e-4cc0-a0d7-e2f5a2022cd0"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PDF"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bb961f24-72cc-40c5-a149-905832e300f2",
+                    "leftValue": "={{$binary.resume0.mimeType}}",
+                    "rightValue": "officedocument",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "DOCX"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "510f67c9-ba52-4288-9944-fd2575bfa8d4",
+                    "leftValue": "={{$binary.resume0.mimeType}}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IMAGE"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1888,
+        144
+      ],
+      "id": "4366e97d-4916-46d6-906f-a1af6a0a1af5",
+      "name": "File Router Type"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d9e561f8-20f1-43c5-87d6-4f37778124b0",
+              "leftValue": "={{ ($json.text || \"\").replace(/[^a-zA-Z]/g, \"\").length }}",
+              "rightValue": 30,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1440,
+        -32
+      ],
+      "id": "e805cf92-31b6-4df3-a2dc-14651ad9b3c7",
+      "name": "PDF Text Check"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get text from previous node\nlet text = $json.text || $json.data || $json.ParsedText || \"\";\n\n// ❌ If no text → fail early\nif (!text || text.trim() === \"\") {\n  throw new Error(\"No text extracted from resume\");\n}\n\n// ✅ Clean the text\ntext = text\n  .replace(/\\n/g, \" \")          // remove line breaks\n  .replace(/\\r/g, \" \")\n  .replace(/\\t/g, \" \")\n  .replace(/\\s+/g, \" \")        // multiple spaces → single\n  .replace(/[^\\x20-\\x7E\\n]/g, \"\")\n  .replace(/([A-Za-z])\\s+([A-Za-z])/g, \"$1$2\") // remove weird chars\n  .trim();\n\n// ✅ Limit size (LLM safe)\nif (text.length > 8000) {\n  text = text.substring(0, 8000);\n}\n\n// Return clean text\nreturn [\n  {\n    clean_text: text\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        -48
+      ],
+      "id": "a57bef20-b16d-4eac-a80a-0aaa69083d9d",
+      "name": "PDF Text Cleaner"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://v2.convertapi.com/convert/docx/to/txt?Secret=9rqmCl73dc9MuuG7Ey1eLVOYKDxwkAao",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "File",
+              "inputDataFieldName": "resume0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1440,
+        160
+      ],
+      "id": "3c7eb497-f57f-4dc0-9397-a07d7faebbf9",
+      "name": "DOCX Converter API"
+    },
+    {
+      "parameters": {
+        "jsCode": "let fileData = $json.Files?.[0]?.FileData;\n\nif (!fileData) {\n  throw new Error(\"No file data from ConvertAPI\");\n}\n\n// base64 → text\nlet text = Buffer.from(fileData, 'base64').toString('utf-8');\n\n// clean\ntext = text\n  .replace(/\\n/g, \" \")\n  .replace(/\\r/g, \" \")\n  .replace(/\\t/g, \" \")\n  .replace(/\\s+/g, \" \")\n  .trim();\n\n// limit\nif (text.length > 8000) {\n  text = text.substring(0, 8000);\n}\n\nreturn [\n  {\n    clean_text: text\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        160
+      ],
+      "id": "d7569b05-28ee-4caa-9c0f-69a78fcc22d7",
+      "name": "DOCX Text Cleaner"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ocr.space/parse/image",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "K87411761888957"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "resume0"
+            },
+            {
+              "name": "language",
+              "value": "eng"
+            },
+            {
+              "name": "isTable",
+              "value": "true"
+            },
+            {
+              "name": "scale",
+              "value": "true"
+            },
+            {
+              "name": "OCREngine",
+              "value": "2"
+            },
+            {
+              "name": "detectOrientation",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1664,
+        352
+      ],
+      "id": "59345d4f-bc51-4c42-9ca5-eda6c4183777",
+      "name": "OCR Image Extractor"
+    },
+    {
+      "parameters": {
+        "jsCode": "let text = $json.ParsedResults?.[0]?.ParsedText || \"\";\n\nif (!text || text.trim() === \"\") {\n  throw new Error(\"OCR failed\");\n}\n\n// 🔥 smart cleaning\ntext = text\n  .replace(/\\r/g, \"\\n\")              // normalize lines\n  .replace(/\\n{2,}/g, \"\\n\")         // remove extra breaks\n  .replace(/[^\\x00-\\x7F]/g, \"\")     // remove junk chars\n  .replace(/[ ]{2,}/g, \" \")         // extra spaces\n  .trim();\n\nreturn [{ clean_text: text }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1440,
+        352
+      ],
+      "id": "61d1e31f-2bc0-4710-a8f9-0cd998537702",
+      "name": "OCR Text Cleaner"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -992,
+        144
+      ],
+      "id": "278f15f2-2fef-42b0-b2eb-9fcf35d38066",
+      "name": "Multi-Source Merger"
+    },
+    {
+      "parameters": {
+        "jsCode": "let texts = [];\n\n// collect all possible sources\nif ($json.clean_text) texts.push($json.clean_text);\nif ($json.text) texts.push($json.text);\nif ($json.ParsedResults?.[0]?.ParsedText) {\n  texts.push($json.ParsedResults[0].ParsedText);\n}\n\n// remove empty / small text\ntexts = texts.filter(t => t && t.length > 50);\n\n// pick BEST text (longest = most complete)\nlet finalText = texts\n  .sort((a, b) => {\n    let scoreA = (a.match(/[a-zA-Z]/g) || []).length;\n    let scoreB = (b.match(/[a-zA-Z]/g) || []).length;\n    return scoreB - scoreA;\n  })[0] || \"\";\n\n// clean\nfinalText = finalText\n  .replace(/\\n/g, \" \")\n  .replace(/\\r/g, \" \")\n  .replace(/\\t/g, \" \")\n  .replace(/\\s+/g, \" \")\n  .replace(/[^\\x20-\\x7E]/g, \"\")\n  .replace(/([A-Za-z])\\s+([A-Za-z])/g, \"$1$2\")\n  .trim();\n\n// limit\nif (finalText.length > 8000) {\n  finalText = finalText.substring(0, 8000);\n}\n\nreturn [{ clean_text: finalText }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -768,
+        160
+      ],
+      "id": "5373dd7c-0e4b-433f-81c0-77668e3d2e6b",
+      "name": "Unified text Processor"
+    },
+    {
+      "parameters": {
+        "jsCode": "let text = $json.clean_text || \"\";\n\nlet education = [];\n\n// detect degree keywords\nlet degrees = [\n  \"bachelor\", \"b.tech\", \"b.e\", \"bsc\",\n  \"master\", \"m.tech\", \"msc\",\n  \"diploma\", \"phd\", \"12th\", \"10th\"\n];\n\nlet lines = text.split(/[\\n\\.]/);\n\nlines.forEach(line => {\n  let l = line.toLowerCase();\n\n  degrees.forEach(deg => {\n    if (l.includes(deg)) {\n      let years = line.match(/\\b(19|20)\\d{2}\\b/g);\n\n      education.push({\n        degree: line.trim(),\n        institution: null,\n        field_of_study: null,\n        grade: null,\n        percentage: null,\n        start_year: years ? years[0] : null,\n        end_year: years ? years[1] || null : null,\n        currently_studying: false\n      });\n    }\n  });\n});\n\nreturn [{\n  clean_text: text,\n  detected_education: education\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -544,
+        160
+      ],
+      "id": "5bd76938-a21f-4a71-904e-b1a8fb753bd8",
+      "name": "Education Pre-Processor"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Extract structured data from the following resume text:\n\n{{ $json.clean_text }}\nCRITICAL:\n- If data is not clearly present → return null\n- Do NOT infer from assumptions\n- Do NOT complete partial phone numbers\n- Do NOT guess experience duration\n- Do NOT generate fake skills\n- Do NOT assume education details if missing\n\nIMPORTANT:\nThe input text may be messy, noisy, or incorrectly spaced due to OCR.\nReconstruct the meaning carefully, but do NOT guess or invent any missing information.\n\nReturn ONLY valid JSON. Do NOT include any explanation or extra text.\n\nSTRICT JSON FORMAT:\n\n\n{\n  \"phone_number\": null,\n  \"date_of_birth\": null,\n  \"gender\": null,\n  \"experience_years\": 0,\n  \"experience_months\": 0,\n  \"skills\": [],\n  \"education\": [\n    {\n      \"degree\": null,\n      \"institution\": null,\n      \"field_of_study\": null,\n      \"grade\": null,\n      \"percentage\": null,\n      \"start_year\": null,\n      \"end_year\": null,\n      \"currently_studying\": false\n    }\n  ],\n  \"confidence\": {\n    \"phone_number\": 0,\n    \"date_of_birth\": 0,\n    \"gender\": 0,\n    \"experience\": 0,\n    \"skills\": 0,\n    \"education\": 0\n  },\n  \"flags\": []\n}\n\n\nSTRICT RULES:\n- Output MUST be valid JSON (no comments, no extra text)\n- If any field is missing → return null (do NOT guess)\n- If multiple phone numbers → choose the most likely primary\n- Normalize phone number to Indian format: +91XXXXXXXXXX\n- Convert experience into:\n  - experience_years (integer)\n  - experience_months (integer)\n- Extract skills as a clean array (no duplicates, normalized casing)\n- Education must support multiple entries\n- If currently studying → currently_studying = true\n- Take start and end year properly \n- If experience is mentioned as date range → calculate carefully\n- If unclear → return 0 instead of guessing\n\nOCR-SPECIFIC HANDLING:\n- Fix broken words and spacing logically (e.g., \"P y t h o n\" → \"Python\")\n- Merge split lines into meaningful sentences\n- Ignore random symbols or OCR noise\n- If text is unclear → reduce confidence instead of guessing\n- - Preserve numbers exactly as seen (phone, percentage, years)\n- Do NOT merge unrelated text blocks\n- If OCR text is broken → reconstruct only when clearly obvious\n\nEDGE CASE HANDLING:\n- If phone not found → add flag: \"Phone number not found\"\n- If multiple phone numbers → add flag: \"Multiple phone numbers detected\"\n- If education incomplete → add flag: \"Education details incomplete\"\n- If DOB missing → add flag: \"Date of Birth not found\"\n\nEDUCATION DETAILS:\n- If detected_education is provided → use it as base and refine it\n- Do NOT ignore detected education entries\n- Improve structure but do NOT remove valid entries\n\nCONFIDENCE SCORING:\n- 90+ → clearly present in text\n- 50–80 → partially clear / inferred from context\n- <50 → weak, unclear, or OCR distorted\n\nDO NOT:\n- Do NOT hallucinate data\n- Do NOT assume missing values\n- Do NOT return text outside JSON",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are a resume parser.  Extract ONLY structured JSON. Do NOT explain anything. Do NOT add extra text. Do NOT guess missing data."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -320,
+        160
+      ],
+      "id": "87337136-7903-4c1d-8fc9-9b37984d9e43",
+      "name": "LLM Resume Parser"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-safeguard-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        384
+      ],
+      "id": "421429a2-7b2d-4710-87bc-0066e3758c6c",
+      "name": "Groq LLM Engine",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "jsCode": "let raw =\n  $json.text ||\n  $json.output ||\n  $json.response ||\n  JSON.stringify($json);\n\n// 🧹 Step 1: Extract JSON\nlet jsonMatch = raw.match(/\\{[\\s\\S]*\\}/);\n\nif (!jsonMatch) {\n  throw new Error(\"No JSON found in LLM response\");\n}\n\nlet cleanJson = jsonMatch[0];\n\n// 🧹 Step 2: Fix common issues\ncleanJson = cleanJson\n  .replace(/,\\s*}/g, \"}\")\n  .replace(/,\\s*]/g, \"]\");\n\n// 🧠 Step 3: Parse safely\nlet parsed;\n\ntry {\n  parsed = JSON.parse(cleanJson);\n} catch (e) {\n  throw new Error(\"Still invalid JSON after cleanup\");\n}\n\n// ✅ Return\nreturn [\n  {\n    status: \"success\",\n    data: parsed\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -848,
+        544
+      ],
+      "id": "34d96485-13a9-4f99-a696-980c8cf92bbb",
+      "name": "JSON Formatter"
+    },
+    {
+      "parameters": {
+        "jsCode": "let data = $json.data;\n\n// ensure structure\ndata.flags = data.flags || [];\ndata.confidence = data.confidence || {};\n\n// --------------------\n// ✅ EDUCATION CHECK\n// --------------------\nif (!data.education || data.education.length === 0) {\n  data.flags.push(\"Education details incomplete\");\n}\n\n// fix years\ndata.education = (data.education || []).map(e => {\n  if (e.start_year && e.end_year && e.start_year > e.end_year) {\n    let temp = e.start_year;\n    e.start_year = e.end_year;\n    e.end_year = temp;\n  }\n  return e;\n});\n\n// --------------------\n// ✅ CONFIDENCE BOOST\n// --------------------\n\n// skill confidence refine\nif (data.skills?.length > 10) {\n  data.confidence.skills = 90;\n}\n\n// experience refine\nif (data.experience_years >= 3) {\n  data.confidence.experience = 90;\n}\n\n// --------------------\n// ✅ RETURN\n// --------------------\nreturn [{ data }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        544
+      ],
+      "id": "c7bdbd15-92be-47b8-bf95-966e1bb9ba62",
+      "name": "Confidence Scorer"
+    },
+    {
+      "parameters": {
+        "jsCode": "let data = $json.data;\n\n// ensure structure exists\ndata.confidence = data.confidence || {};\ndata.flags = [];\n\n// --------------------\n// ✅ CONFIDENCE LOGIC\n// --------------------\n\n// phone\ndata.confidence.phone_number = data.phone_number ? 90 : 0;\n\n// skills\ndata.confidence.skills = data.skills?.length > 0 ? 85 : 0;\n\n// experience\ndata.confidence.experience =\n  data.experience_years > 0 ? 80 : 30;\n\n// education\ndata.confidence.education =\n  data.education?.length > 0 ? 85 : 40;\n\n// dob\ndata.confidence.date_of_birth =\n  data.date_of_birth ? 70 : 0;\n\n// gender\ndata.confidence.gender =\n  data.gender ? 60 : 0;\n\n\n// --------------------\n// ✅ FLAGS LOGIC\n// --------------------\n\n// phone not found\nif (!data.phone_number) {\n  data.flags.push(\"Phone number not found\");\n}\n\n// multiple phone check\nif ((data.phone_number || \"\").length > 13) {\n  data.flags.push(\"Multiple phone numbers detected\");\n}\n\n// education missing\nif (!data.education || data.education.length === 0) {\n  data.flags.push(\"Education details incomplete\");\n}\n\n// DOB missing\nif (!data.date_of_birth) {\n  data.flags.push(\"Date of Birth not found\");\n}\n\n\n// --------------------\n// ✅ FINAL RETURN\n// --------------------\n\nreturn [{ data }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -464,
+        544
+      ],
+      "id": "26313aca-b9d8-4988-83be-97df9dc06201",
+      "name": "Data Validator & Flags"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d1d335c-ad73-4f45-a943-d6be3900dc51",
+              "leftValue": "={{ $json.data && Object.keys($json.data).length > 0 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -256,
+        544
+      ],
+      "id": "5d49fb79-f2b1-4cdb-afd2-8dd2c60b7ea2",
+      "name": "Final Output Validator"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({\n  status: \"success\",\n  data: $json.data\n}) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        176,
+        288
+      ],
+      "id": "763023dd-fd3a-45f3-bc13-863e3fcba354",
+      "name": "API Response Sender"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://logs-prod-028.grafana.net/loki/api/v1/push",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"streams\": [{ \"stream\": { \"app\": \"resume-parser\", \"stage\": \"final\", \"level\": \"info\" }, \"values\": [[ (Date.now() * 1000000).toString(), JSON.stringify($json) ]] }] } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        160,
+        528
+      ],
+      "id": "0fb87534-45dd-472c-8334-51119237e70d",
+      "name": "Log Final Output",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "iDSZGfhlpen74Imq",
+          "name": "GRAFANA_LOGS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://logs-prod-028.grafana.net/loki/api/v1/push",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"streams\": [{ \"stream\": { \"app\": \"resume-parser\", \"stage\": \"ocr\", \"level\": \"info\" }, \"values\": [[ (Date.now() * 1000000).toString(), \"text_length=\" + ($json.clean_text?.length || 0) + \", request_id=\" + $execution.id ]] }] } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1184,
+        528
+      ],
+      "id": "7091197b-c37d-4bcb-bb45-8c78714de378",
+      "name": "Log OCR Output",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "iDSZGfhlpen74Imq",
+          "name": "GRAFANA_LOGS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://logs-prod-028.grafana.net/loki/api/v1/push",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"streams\": [{ \"stream\": { \"app\": \"resume-parser\", \"stage\": \"llm\", \"level\": \"info\" }, \"values\": [[ (Date.now() * 1000000).toString(), JSON.stringify($json) ]] }] } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        112,
+        -96
+      ],
+      "id": "79f768d0-21a2-45da-b218-8a33b1ba6b24",
+      "name": "Log LLM Output",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "iDSZGfhlpen74Imq",
+          "name": "GRAFANA_LOGS"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "PDF Extraction": {
+      "main": [
+        [
+          {
+            "node": "PDF Text Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume Upload Trigger": {
+      "main": [
+        [
+          {
+            "node": "File Router Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File Router Type": {
+      "main": [
+        [
+          {
+            "node": "PDF Extraction",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OCR Image Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "DOCX Converter API",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OCR Image Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF Text Check": {
+      "main": [
+        [
+          {
+            "node": "PDF Text Cleaner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF Text Cleaner": {
+      "main": [
+        [
+          {
+            "node": "Multi-Source Merger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DOCX Converter API": {
+      "main": [
+        [
+          {
+            "node": "DOCX Text Cleaner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DOCX Text Cleaner": {
+      "main": [
+        [
+          {
+            "node": "Multi-Source Merger",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OCR Image Extractor": {
+      "main": [
+        [
+          {
+            "node": "OCR Text Cleaner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OCR Text Cleaner": {
+      "main": [
+        [
+          {
+            "node": "Log OCR Output",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Multi-Source Merger",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Multi-Source Merger": {
+      "main": [
+        [
+          {
+            "node": "Unified text Processor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unified text Processor": {
+      "main": [
+        [
+          {
+            "node": "Education Pre-Processor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Education Pre-Processor": {
+      "main": [
+        [
+          {
+            "node": "LLM Resume Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Resume Parser": {
+      "main": [
+        [
+          {
+            "node": "Log LLM Output",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "JSON Formatter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq LLM Engine": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LLM Resume Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Formatter": {
+      "main": [
+        [
+          {
+            "node": "Confidence Scorer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confidence Scorer": {
+      "main": [
+        [
+          {
+            "node": "Data Validator & Flags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Validator & Flags": {
+      "main": [
+        [
+          {
+            "node": "Final Output Validator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final Output Validator": {
+      "main": [
+        [
+          {
+            "node": "Log Final Output",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "API Response Sender",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3540a60da459998266d4e06af9487e9bac7dc3dfde4f5b114f7c2c48699b715b"
+  }
+}
