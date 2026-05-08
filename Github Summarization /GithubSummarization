@@ -1,0 +1,1481 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## ⚙️ HOW TO CONFIGURE\n\nOpen the **'.env'** node and update:\n\n- `SHEET_ID` → already set to your sheet\n- `EMAIL_TO` → fallback email\n\n**Google Sheet tabs needed:**\n\n`config` tab:\n| email |\n| info@example.com |\n\n`users` tab:\n| username | \n| madhavv04 | \n\n`orgs` tab:\n| org | active |\n| my-org | yes |\n\n\n",
+        "height": 432,
+        "width": 440
+      },
+      "id": "bee2dc6b-bf9e-48a5-919c-cbd8988ab3ad",
+      "name": "Setup Instructions1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -736
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "var-sheet-id",
+              "name": "SHEET_ID",
+              "value": "1ViOfQCEdxR3-qQVkplaH2QrDvHqpz-j89LwHEOYUB_A",
+              "type": "string"
+            },
+            {
+              "id": "var-email",
+              "name": "EMAIL_TO",
+              "value": "madhavvjariwala@gmail.com",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7d321a76-64a4-4aa7-b005-457c65faa793",
+      "name": ".env",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -832,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc",
+          "mode": "list",
+          "cachedResultName": "Github Summarization",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2011881191,
+          "mode": "list",
+          "cachedResultName": "orgs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit#gid=2011881191"
+        },
+        "options": {}
+      },
+      "id": "fbfdeff7-47fe-40af-9af0-26cf7d80a548",
+      "name": "Read GitHub Orgs",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        208
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dk37lZ3lGRPoAC6n",
+          "name": "Madhav_Sheets_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc",
+          "mode": "list",
+          "cachedResultName": "Github Summarization",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 832027131,
+          "mode": "list",
+          "cachedResultName": "users",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit#gid=832027131"
+        },
+        "options": {}
+      },
+      "id": "20bd1ea6-9747-44e9-915c-bae218f5f382",
+      "name": "Read GitHub Users",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        16
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dk37lZ3lGRPoAC6n",
+          "name": "Madhav_Sheets_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc",
+          "mode": "list",
+          "cachedResultName": "Github Summarization",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1377021111,
+          "mode": "list",
+          "cachedResultName": "config",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit#gid=1377021111"
+        },
+        "options": {}
+      },
+      "id": "2e1dfbfd-e15a-470c-ac38-f479051d11e1",
+      "name": "Read Config (Emails)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        -176
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dk37lZ3lGRPoAC6n",
+          "name": "Madhav_Sheets_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.emailsTo }}",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "e3738c1f-b7df-45ef-9839-1db5c8d7844a",
+      "name": "Send Release Digest",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2208,
+        0
+      ],
+      "webhookId": "f242632d-1bce-4fcd-80ac-e5bf147954cb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0HlVXYwnzDLRITg8",
+          "name": "GMAIL_ACCOUNT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.emailsTo }}",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "349b53d4-2d91-4e31-9b8f-9b75feb9f5d9",
+      "name": "Send No-Releases Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1408,
+        208
+      ],
+      "webhookId": "193ccffc-014b-4fe2-9efc-b9beac6e55e5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0HlVXYwnzDLRITg8",
+          "name": "GMAIL_ACCOUNT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiText = $json.choices[0].message.content;\nconst { emails, today } = $('Prepare Data').first().json;\n\nconst html = `\n<html><body style=\"font-family:Arial,sans-serif;max-width:700px;margin:auto;padding:24px;color:#1a1a1a\">\n  <div style=\"background:#0d1117;padding:20px 24px;border-radius:8px 8px 0 0\">\n    <h1 style=\"color:#58a6ff;margin:0;font-size:20px\">🚀 GitHub Release Digest</h1>\n    <p style=\"color:#8b949e;margin:6px 0 0\">${today}</p>\n  </div>\n  <div style=\"border:1px solid #e1e4e8;border-top:none;padding:24px;border-radius:0 0 8px 8px\">\n    <h2 style=\"font-size:22px;font-weight:700;margin:0 0 6px\">GitHub Release Summary</h2>\n    <p style=\"font-size:15px;color:#555;margin:0 0 24px\">Here are the releases from the past 24 hours:</p>\n    ${aiText}\n  </div>\n</body></html>\n`;\n\nreturn [{ json: { html, emailsTo: emails, subject: `GitHub Release Digest — ${today}` } }];"
+      },
+      "id": "5ea8466f-770f-4fe1-92c3-263eba7e91fa",
+      "name": "Build HTML Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2048,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  model: \"llama-3.1-8b-instant\",\n  max_tokens: 2048,\n  messages: [\n    {\n      role: \"system\",\n      content: \"You generate GitHub release summaries for HTML email digests. Output only HTML repo sections — no page title, no intro text, no markdown, no code blocks. Start directly with the first repo. For each repo use exactly this structure:\\n<h2 style='font-size:18px;font-weight:700;margin:24px 0 8px'>owner/repo</h2>\\n<ul style='font-size:15px;line-height:1.8;margin:0 0 16px;padding-left:20px'>\\n  <li><strong>Version:</strong> vX.X.X</li>\\n  <li><strong>Release Notes:</strong> <a href='URL'>URL</a></li>\\n  <li><strong>What's New:</strong> one sentence summary of changes</li>\\n</ul>\"\n    },\n    {\n      role: \"user\",\n      content: $json.summary\n    }\n  ]\n} }}",
+        "options": {}
+      },
+      "id": "f0078f7f-c5af-45b0-855c-a475750b65a2",
+      "name": "Groq Summarize",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1856,
+        0
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9iG1uLazSpfDon6e",
+          "name": "Groq API KEY"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const emails = $('Parse Emails').first().json.emails || $('.env').first().json.EMAIL_TO;\nconst today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });\n\nconst html = `\n<html><body style=\"font-family:Arial,sans-serif;max-width:700px;margin:auto;padding:24px;color:#1a1a1a\">\n  <div style=\"background:#0d1117;padding:20px 24px;border-radius:8px 8px 0 0\">\n    <h1 style=\"color:#58a6ff;margin:0;font-size:20px\">🚀 GitHub Release Digest</h1>\n    <p style=\"color:#8b949e;margin:6px 0 0\">${today}</p>\n  </div>\n  <div style=\"border:1px solid #e1e4e8;border-top:none;padding:32px 24px;border-radius:0 0 8px 8px;text-align:center\">\n    <p style=\"font-size:40px;margin:0\">✅</p>\n    <h2 style=\"color:#1a1a1a;margin:12px 0 8px\">All quiet today!</h2>\n    <p style=\"color:#666;font-size:15px;line-height:1.6;max-width:400px;margin:0 auto\">No new GitHub releases were published in the last 24 hours across your tracked users and organizations.</p>\n    <p style=\"color:#aaa;font-size:13px;margin-top:20px\">Check back tomorrow. We'll notify you as soon as something ships.</p>\n  </div>\n</body></html>\n`;\n\nreturn [{ json: { html, emailsTo: emails, subject: `GitHub Digest — No Releases on ${today}` } }];"
+      },
+      "id": "18609538-ad10-4d3b-a3d4-5b37c0f06501",
+      "name": "Build No-Releases Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "no-releases-check",
+              "leftValue": "={{ $json.noReleases }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "42aeca74-7cfe-44cd-9c84-20f5fe3c2cdc",
+      "name": "Any Releases Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        976,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "has-releases-check",
+              "leftValue": "={{ $json.hasReleases }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d1fda22d-c995-4519-9a04-10f1365b7243",
+      "name": "Any Releases Today?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const releases = $json.releases || [];\nconst emails = $('Parse Emails').first().json.emails || $('.env').first().json.EMAIL_TO;\nconst today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });\n\nconst summary = releases.map(r =>\n  `Repo: ${r.repo}\\nVersion: ${r.tag} — ${r.name}\\nPublished: ${r.published_at}\\nURL: ${r.url}\\nNotes:\\n${r.body}`\n).join('\\n\\n---\\n\\n');\n\nreturn [{ json: { hasReleases: true, emails, today, summary, count: releases.length } }];"
+      },
+      "id": "0f2d0b7e-8dc2-4342-93d3-9145d7987028",
+      "name": "Prepare Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Run once for ALL items — handles n repos with n releases each\nconst cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);\nconst results = [];\n\nfor (const item of $input.all()) {\n  const input = item.json;\n  const releases = Array.isArray(input) ? input : [input];\n\n  for (const r of releases) {\n    if (!r?.published_at) continue;\n    if (new Date(r.published_at) < cutoff) continue;\n\n    const repo = r.html_url\n      .split('/releases/')[0]\n      .replace('https://github.com/', '');\n\n    results.push({\n      json: {\n        repo,\n        tag: r.tag_name,\n        name: r.name || r.tag_name,\n        url: r.html_url,\n        published_at: r.published_at,\n        body: (r.body || 'No release notes provided.').substring(0, 1500)\n      }\n    });\n  }\n}\n\n// If no releases found — return flag immediately, workflow branches to no-release email\nif (results.length === 0) {\n  return [{ json: { noReleases: true } }];\n}\n\nreturn results;"
+      },
+      "id": "d95196d6-7b7b-4050-b1f4-0240591ea758",
+      "name": "Filter Last 24h Releases",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Flatten all repos from all users/orgs and deduplicate\nconst seen = new Set();\nconst result = [];\n\nfor (const item of $input.all()) {\n  const repos = Array.isArray(item.json) ? item.json : [item.json];\n  for (const repo of repos) {\n    if (!repo || !repo.full_name) continue;\n    if (seen.has(repo.full_name)) continue;\n    seen.add(repo.full_name);\n    result.push({ json: { full_name: repo.full_name } });\n  }\n}\n\nif (!result.length) throw new Error('No repositories found.');\nreturn result;"
+      },
+      "id": "ac9835c2-aab6-42c9-bbac-ffe72257a47c",
+      "name": "Flatten & Deduplicate Repos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "releases",
+        "options": {}
+      },
+      "id": "883a3d4a-eedb-49c2-b804-77ae208ea592",
+      "name": "Aggregate All Releases",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build GitHub API URLs for each user and org\nconst calls = [];\n\nfor (const item of $input.all()) {\n  const active = (item.json.active || 'yes').toLowerCase();\n  if (active === 'no' || active === 'false') continue;\n\n  if (item.json.username && item.json.username.trim()) {\n    const u = item.json.username.trim();\n    calls.push({ type: 'user', name: u, url: `https://api.github.com/users/${u}/repos?per_page=100&type=owner` });\n  }\n  if (item.json.org && item.json.org.trim()) {\n    const o = item.json.org.trim();\n    calls.push({ type: 'org', name: o, url: `https://api.github.com/orgs/${o}/repos?per_page=100` });\n  }\n}\n\nif (!calls.length) throw new Error('No active users or orgs found in Google Sheet.');\nreturn calls.map(c => ({ json: c }));"
+      },
+      "id": "356054e9-010b-4948-8989-31545eb0cf7b",
+      "name": "Build API Call List",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        128
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -384,
+        128
+      ],
+      "id": "04bf35a1-8ef1-40b3-a748-6502d47ed5f1",
+      "name": "Merge Users + Orgs"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all();\nconst emails = rows.map(r => r.json.email).filter(Boolean).join(', ');\nif (!emails) throw new Error('No emails in config tab. Add a column named \"email\".');\nreturn [{ json: { emails } }];"
+      },
+      "id": "720e696d-35f1-461e-8c74-19af31765dbe",
+      "name": "Parse Emails",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -352,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3784c98b-7612-4733-a48e-c16b19b2dc15",
+      "name": "Fetch All Repos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        64,
+        128
+      ],
+      "credentials": {
+        "githubApi": {
+          "id": "kj7obKiRbbqhMJHA",
+          "name": "GitHub Pat"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/repos/{{ $json.full_name }}/releases?per_page=20",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8a67d131-d7b3-4a57-9ce5-17689a061b4f",
+      "name": "Fetch Releases Per Repo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        128
+      ],
+      "credentials": {
+        "githubApi": {
+          "id": "kj7obKiRbbqhMJHA",
+          "name": "GitHub Pat"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "ff066f73-1a21-4d54-b481-ede9e3839fab",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        -496
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $('Error Trigger').first().json;\nconst adminEmail = $('Parse Emails For EL').first().json.emails;\nconst now = new Date().toLocaleString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });\n\nconst failedNode = error.execution?.error?.node?.name || 'Unknown Node';\nconst errorMessage = error.execution?.error?.message || 'Unknown error';\nconst errorStack = error.execution?.error?.stack || '';\nconst workflowName = error.workflow?.name || 'GitHub Summarization';\nconst executionId = error.execution?.id || 'N/A';\nconst workflowId = error.workflow?.id || '';\n\n// ✅ Extract base URL from execution.url (contains correct subdomain)\nlet executionUrl = `Execution ID: ${executionId}`;\nif (error.execution?.url) {\n  executionUrl = error.execution.url;\n} else if (error.execution?.resumeUrl) {\n  executionUrl = error.execution.resumeUrl.replace('/resume', '');\n}\n\nconst html = `\n<html><body style=\"font-family:Arial,sans-serif;max-width:700px;margin:auto;padding:24px;color:#1a1a1a\">\n  <div style=\"background:#b91c1c;padding:20px 24px;border-radius:8px 8px 0 0\">\n    <h1 style=\"color:#fff;margin:0;font-size:20px\">⚠️ Workflow Error Alert</h1>\n    <p style=\"color:#fecaca;margin:6px 0 0\">${now}</p>\n  </div>\n  <div style=\"border:1px solid #fca5a5;border-top:none;padding:24px;border-radius:0 0 8px 8px;background:#fff5f5\">\n    <table style=\"width:100%;border-collapse:collapse;font-size:14px\">\n      <tr style=\"border-bottom:1px solid #fecaca\">\n        <td style=\"padding:10px 8px;font-weight:700;color:#991b1b;width:160px\">Workflow</td>\n        <td style=\"padding:10px 8px\">${workflowName}</td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #fecaca\">\n        <td style=\"padding:10px 8px;font-weight:700;color:#991b1b\">Failed Node</td>\n        <td style=\"padding:10px 8px;font-family:monospace;background:#fee2e2;border-radius:4px\">${failedNode}</td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #fecaca\">\n        <td style=\"padding:10px 8px;font-weight:700;color:#991b1b\">Error</td>\n        <td style=\"padding:10px 8px;color:#dc2626\">${errorMessage}</td>\n      </tr>\n      <tr style=\"border-bottom:1px solid #fecaca\">\n        <td style=\"padding:10px 8px;font-weight:700;color:#991b1b\">Execution ID</td>\n        <td style=\"padding:10px 8px\">${executionId}</td>\n      </tr>\n      <tr>\n        <td style=\"padding:10px 8px;font-weight:700;color:#991b1b\">View Execution</td>\n        <td style=\"padding:10px 8px\"><a href=\"${executionUrl}\" style=\"color:#2563eb\">Open in n8n →</a></td>\n      </tr>\n    </table>\n    ${errorStack ? `<div style=\"margin-top:16px;padding:12px;background:#fee2e2;border-radius:6px;font-family:monospace;font-size:12px;color:#7f1d1d;white-space:pre-wrap\">${errorStack.substring(0, 800)}</div>` : ''}\n  </div>\n</body></html>\n`;\n\nreturn [{ json: { html, emailsTo: adminEmail, subject: `🔴 n8n Error: ${failedNode} failed in ${workflowName}` } }];"
+      },
+      "id": "d9c887cd-4a2e-4e6d-b79c-5091d39d59dd",
+      "name": "Build Error Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        -496
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $('Error Trigger').first().json;\nconst now = new Date().toLocaleString('en-IN', { \n  timeZone: 'Asia/Kolkata',\n  day: '2-digit', month: 'short', year: 'numeric',\n  hour: '2-digit', minute: '2-digit', hour12: true \n});\n\nreturn [{ json: {\n  timestamp: now,\n  workflow: error.workflow?.name || 'GitHub Summarization',\n  failed_node: error.execution?.error?.node?.name || 'Unknown',\n  error_message: error.execution?.error?.message || 'Unknown error',\n  execution_id: String(error.execution?.id || 'N/A'),\n  status: 'FAILED'\n} }];"
+      },
+      "id": "365c0fcc-08a9-4518-921e-0fe0a2a3ec3e",
+      "name": "Prepare Error Log",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc",
+          "mode": "list",
+          "cachedResultName": "Github Summarization",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 288998064,
+          "mode": "list",
+          "cachedResultName": "error_logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit#gid=288998064"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.timestamp }}",
+            "workflow": "={{ $json.workflow }}",
+            "failed_node": "={{ $json.failed_node }}",
+            "error_message": "={{ $json.error_message }}",
+            "execution_id": "={{ $json.execution_id }}",
+            "status": "={{ $json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow",
+              "displayName": "workflow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "failed_node",
+              "displayName": "failed_node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution_id",
+              "displayName": "execution_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "778855c0-3704-425a-85db-da811c161cb5",
+      "name": "Log Error to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        176,
+        -400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dk37lZ3lGRPoAC6n",
+          "name": "Madhav_Sheets_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.emailsTo }}",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "001980b0-db66-4090-abd6-5aa862fd2e9a",
+      "name": "Send Error Alert Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -16,
+        -592
+      ],
+      "webhookId": "4b53d232-38d0-4fba-b6ea-460a019976fb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0HlVXYwnzDLRITg8",
+          "name": "GMAIL_ACCOUNT"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc",
+          "mode": "list",
+          "cachedResultName": "Github Summarization",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1945703672,
+          "mode": "list",
+          "cachedResultName": "success_logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit#gid=1945703672"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.timestamp }}",
+            "workflow ": "={{ $json.workflow }}",
+            "status": "={{ $json.status }}",
+            "execution_id ": "={{ $json.execution_id }}",
+            "message": "={{ $json.message }}",
+            "email_type": "={{ $json.email_type }}",
+            "release_count": "={{ $json.release_count }}",
+            "email_sent_to": "={{ $json.email_sent_to }}",
+            "subject": "={{ $json.subject }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow ",
+              "displayName": "workflow ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution_id ",
+              "displayName": "execution_id ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email_type",
+              "displayName": "email_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "release_count",
+              "displayName": "release_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email_sent_to",
+              "displayName": "email_sent_to",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2624,
+        0
+      ],
+      "id": "1055a8b5-d462-49e4-8df9-5b780139df71",
+      "name": "Append New Release Logs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dk37lZ3lGRPoAC6n",
+          "name": "Madhav_Sheets_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date().toLocaleString('en-IN', { \n  timeZone: 'Asia/Kolkata',\n  day: '2-digit', month: 'short', year: 'numeric',\n  hour: '2-digit', minute: '2-digit', hour12: true \n});\n\n// Try to get release digest data (branch 1)\nlet emailType = 'No-Releases';\nlet releaseCount = 0;\nlet emailSentTo = '';\nlet subject = '';\n\ntry {\n  const data = $('Prepare Data').first().json;\n  releaseCount = data.count || 0;\n  emailSentTo = data.emails || '';\n  emailType = 'Release Digest';\n  subject = $('Build HTML Email').first().json.subject || 'GitHub Release Digest';\n} catch(e) {\n  // came from no-releases branch\n  const noRel = $('Build No-Releases Email').first().json;\n  emailSentTo = noRel.emailsTo || '';\n  subject = noRel.subject || 'No Releases Today';\n}\n\nreturn [{ json: {\n  timestamp: now,\n  workflow: 'GitHub Summarization',\n  status: 'SUCCESS',\n  execution_id: String($execution.id || 'N/A'),\n  email_type: emailType,\n  release_count: releaseCount,\n  email_sent_to: emailSentTo,\n  subject: subject,\n  message: `Sent ${emailType} email with ${releaseCount} releases`\n} }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2416,
+        0
+      ],
+      "id": "9e859471-f466-47eb-953e-592368096a68",
+      "name": "Prepare Release Success Log"
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date().toLocaleString('en-IN', { \n  timeZone: 'Asia/Kolkata',\n  day: '2-digit', month: 'short', year: 'numeric',\n  hour: '2-digit', minute: '2-digit', hour12: true \n});\n// Try to get release digest data (branch 1)\nlet emailType = 'No-Releases';\nlet releaseCount = 0;\nlet emailSentTo = '';\nlet subject = '';\n\ntry {\n  const data = $('Prepare Data').first().json;\n  releaseCount = data.count || 0;\n  emailSentTo = data.emails || '';\n  emailType = 'Release Digest';\n  subject = $('Build HTML Email').first().json.subject || 'GitHub Release Digest';\n} catch(e) {\n  // came from no-releases branch\n  const noRel = $('Build No-Releases Email').first().json;\n  emailSentTo = noRel.emailsTo || '';\n  subject = noRel.subject || 'No Releases Today';\n}\n\nreturn [{ json: {\n  timestamp: now,\n  workflow: 'GitHub Summarization',\n  status: 'SUCCESS',\n  execution_id: String($execution.id || 'N/A'),\n  email_type: emailType,\n  release_count: releaseCount,\n  email_sent_to: emailSentTo,\n  subject: subject,\n  message: `Sent ${emailType} email with ${releaseCount} releases`\n} }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        208
+      ],
+      "id": "fc127d5c-c586-4adf-a8b4-cff5522fe668",
+      "name": "Prepare No Release Success Log"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc",
+          "mode": "list",
+          "cachedResultName": "Github Summarization",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1945703672,
+          "mode": "list",
+          "cachedResultName": "success_logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-FqMrD4fOksy4h6xMemlTVhBrwxKaI5CrZUdXIQF6Vc/edit#gid=1945703672"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.timestamp }}",
+            "workflow ": "={{ $json.workflow }}",
+            "status": "={{ $json.status }}",
+            "execution_id ": "={{ $json.execution_id }}",
+            "message": "={{ $json.message }}",
+            "email_type": "={{ $json.email_type }}",
+            "release_count": "={{ $json.release_count }}",
+            "email_sent_to": "={{ $json.email_sent_to }}",
+            "subject": "={{ $json.subject }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow ",
+              "displayName": "workflow ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution_id ",
+              "displayName": "execution_id ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email_type",
+              "displayName": "email_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "release_count",
+              "displayName": "release_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email_sent_to",
+              "displayName": "email_sent_to",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2624,
+        208
+      ],
+      "id": "d8f7ee70-0509-4bb4-9e05-3122f2831038",
+      "name": "Append No Release Logs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dk37lZ3lGRPoAC6n",
+          "name": "Madhav_Sheets_Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "=0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "47782285-4f55-4358-b160-91895264c77b",
+      "name": "Every Day at 9 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1056,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Trigger \nRuns automatically every day at 9:00 AM. Kicks off the full GitHub release digest workflow.",
+        "height": 128
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1344,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "e11f2685-4282-4bee-8dcf-9ed2c92aef9f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Config Setup \n\nLoads all environment variables, then reads 3 things from Google Sheets in parallel:\n\nGitHub Users to track\nGitHub Orgs to track\nEmail recipients list",
+        "height": 640,
+        "width": 480,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -896,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "ae9fc4cc-9751-4868-bb9c-90a9820e6c71",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Fetch GitHub Data\n\nMerges users & orgs into one list → builds GitHub API calls → fetches all repos → removes duplicates → fetches releases for every repo → filters only releases from the last 24 hours.",
+        "height": 400,
+        "width": 624,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "2af5dbf0-3480-4f97-a670-0e8fec441d35",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## No Releases Branch \n\nIf zero releases found in last 24h → sends a \"No releases today\" email to recipients and logs it to Google Sheets.",
+        "height": 128,
+        "width": 448,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        672,
+        288
+      ],
+      "typeVersion": 1,
+      "id": "a2224f3e-af5b-45f5-ab22-cd1438d2d9a8",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## AI Summarization\n\nAggregates all releases → prepares data → sends to Groq AI for summarization → builds a formatted HTML email → sends the digest email to all recipients → logs success to Google Sheets.",
+        "height": 352,
+        "width": 896,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1120,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "8bfbdd79-2cb5-46c5-9762-bc7822cac285",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Error Handler\n\nCompletely separate flow. If anything in the main workflow crashes:\n\nReads email config\nBuilds an error alert email\nSends it to the team immediately\nLogs the error details to Google Sheets\n\nEL = Error Logging",
+        "height": 240,
+        "width": 800,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1056,
+        -768
+      ],
+      "typeVersion": 1,
+      "id": "90f13ede-87b2-44ad-bbfc-344417fb8c6c",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Logs Storage\n\nIn both cases - Success Logs are maintained if there is release or not ",
+        "height": 528,
+        "width": 288,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2544,
+        -144
+      ],
+      "id": "aac4df4c-8923-456c-9e98-5b2c3727be33",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## HOW TO CONFIGURE IN COMPANY'S ACCOUNT\n\n## 1. Open sheets users :\n\n- Change username (Github username must be used)\n\n## 2. Generate Github Pat Token \n\n## 3. Create release :\n\n- Take care that repo should be public !\n- If Private It will not work",
+        "height": 432,
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        -736
+      ],
+      "typeVersion": 1,
+      "id": "4ece3851-c251-40bd-bbf5-58b42b7d6d08",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all();\nconst emails = rows.map(r => r.json.email).filter(Boolean).join(', ');\nif (!emails) throw new Error('No emails in config tab. Add a column named \"email\".');\nreturn [{ json: { emails } }];"
+      },
+      "id": "6ef86f2f-a8c2-4ccb-8bbc-1a4fbf10d099",
+      "name": "Parse Emails For EL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -544,
+        -496
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ViOfQCEdxR3-qQVkplaH2QrDvHqpz-j89LwHEOYUB_A",
+          "mode": "list",
+          "cachedResultName": "GitHub summary  ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ViOfQCEdxR3-qQVkplaH2QrDvHqpz-j89LwHEOYUB_A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "config",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ViOfQCEdxR3-qQVkplaH2QrDvHqpz-j89LwHEOYUB_A/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "7b8783c5-4163-44f4-99b9-f56cb31c3bde",
+      "name": "Read Config (Emails) For EL",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -800,
+        -496
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "dk37lZ3lGRPoAC6n",
+          "name": "Madhav_Sheets_Account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    ".env": {
+      "main": [
+        [
+          {
+            "node": "Read Config (Emails)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read GitHub Users",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read GitHub Orgs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read GitHub Orgs": {
+      "main": [
+        [
+          {
+            "node": "Merge Users + Orgs",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Read GitHub Users": {
+      "main": [
+        [
+          {
+            "node": "Merge Users + Orgs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Config (Emails)": {
+      "main": [
+        [
+          {
+            "node": "Parse Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Release Digest": {
+      "main": [
+        [
+          {
+            "node": "Prepare Release Success Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send No-Releases Email": {
+      "main": [
+        [
+          {
+            "node": "Prepare No Release Success Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build HTML Email": {
+      "main": [
+        [
+          {
+            "node": "Send Release Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Summarize": {
+      "main": [
+        [
+          {
+            "node": "Build HTML Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build No-Releases Email": {
+      "main": [
+        [
+          {
+            "node": "Send No-Releases Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Releases Found?": {
+      "main": [
+        [
+          {
+            "node": "Build No-Releases Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aggregate All Releases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Releases Today?": {
+      "main": [
+        [
+          {
+            "node": "Groq Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Data": {
+      "main": [
+        [
+          {
+            "node": "Any Releases Today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Last 24h Releases": {
+      "main": [
+        [
+          {
+            "node": "Any Releases Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten & Deduplicate Repos": {
+      "main": [
+        [
+          {
+            "node": "Fetch Releases Per Repo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate All Releases": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build API Call List": {
+      "main": [
+        [
+          {
+            "node": "Fetch All Repos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Users + Orgs": {
+      "main": [
+        [
+          {
+            "node": "Build API Call List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch All Repos": {
+      "main": [
+        [
+          {
+            "node": "Flatten & Deduplicate Repos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Releases Per Repo": {
+      "main": [
+        [
+          {
+            "node": "Filter Last 24h Releases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Config (Emails) For EL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Error Email": {
+      "main": [
+        [
+          {
+            "node": "Prepare Error Log",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Error Alert Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Error Log": {
+      "main": [
+        [
+          {
+            "node": "Log Error to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Release Success Log": {
+      "main": [
+        [
+          {
+            "node": "Append New Release Logs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare No Release Success Log": {
+      "main": [
+        [
+          {
+            "node": "Append No Release Logs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every Day at 9 AM": {
+      "main": [
+        [
+          {
+            "node": ".env",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Emails For EL": {
+      "main": [
+        [
+          {
+            "node": "Build Error Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Config (Emails) For EL": {
+      "main": [
+        [
+          {
+            "node": "Parse Emails For EL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {
+    "Every Day at 9 AM": [
+      {
+        "timestamp": "2026-05-08T09:00:00.013+05:30",
+        "Readable date": "May 8th 2026, 9:00:00 am",
+        "Readable time": "9:00:00 am",
+        "Day of week": "Friday",
+        "Year": "2026",
+        "Month": "May",
+        "Day of month": "08",
+        "Hour": "09",
+        "Minute": "00",
+        "Second": "00",
+        "Timezone": "Asia/Kolkata (UTC+05:30)"
+      }
+    ]
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1cb6eb612175a8ca9d471bc310288f8085a34a9d3daef8e74338ff31fb2a3fc4"
+  }
+}
